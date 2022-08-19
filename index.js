@@ -1,3 +1,4 @@
+const { response } = require('express');
 const express = require('express');
 const app = express();
 
@@ -26,6 +27,18 @@ const persons = [
 
 app.get('/api/persons', (request, response) => {
 	response.json(persons);
+});
+
+app.get('/info', (request, response) => {
+	let today = new Date();
+	let date =
+		today.getFullYear() + '-' + (today.getMonth() + 1) + '-' + today.getDate();
+	let time =
+		today.getHours() + ':' + today.getMinutes() + ':' + today.getSeconds();
+	let dateTime = date + ' ' + time;
+	response.send(
+		`<p>Phonebook has data on ${persons.length} people</p> <p>${dateTime}</p>`
+	);
 });
 
 const PORT = 3001;
