@@ -1,0 +1,27 @@
+{
+  "name": "phonebookserver",
+  "version": "1.0.0",
+  "description": "Backend for my Phonebook react application",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node index.js",
+    "dev": "nodemon index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/AndreiTotoro/phonebookServer.git"
+  },
+  "author": "AndrewTotoro",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/AndreiTotoro/phonebookServer/issues"
+  },
+  "homepage": "https://github.com/AndreiTotoro/phonebookServer#readme",
+  "devDependencies": {
+    "nodemon": "^2.0.19"
+  },
+  "dependencies": {
+    "express": "^4.18.1"
+  }
+}
