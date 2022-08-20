@@ -55,12 +55,27 @@ app.delete('/api/persons/:id', (request, response) => {
 });
 
 app.post('/api/persons/', (request, response) => {
-	const newperson = {
-		...request.body,
+	const body = request.body;
+	if (!body.number || !body.name) {
+		return response.status(400).json({
+			error: 'content missing',
+		});
+	}
+
+	if (persons.find((pers) => pers.name == body.name)) {
+		return response.status(400).json({
+			error: 'name already exists',
+		});
+	}
+
+	const person = {
 		id: Math.floor(Math.random() * 1000 + 1),
+		name: body.name,
+		number: body.number,
 	};
-	persons = persons.concat(newperson);
-	response.json(newperson);
+
+	persons = persons.concat(person);
+	response.json(person);
 });
 
 const PORT = 3001;
