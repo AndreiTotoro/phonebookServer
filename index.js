@@ -1,4 +1,4 @@
-const { response } = require('express');
+const { response, request } = require('express');
 const express = require('express');
 const app = express();
 
@@ -30,15 +30,20 @@ app.get('/api/persons', (request, response) => {
 });
 
 app.get('/info', (request, response) => {
-	let today = new Date();
-	let date =
-		today.getFullYear() + '-' + (today.getMonth() + 1) + '-' + today.getDate();
-	let time =
-		today.getHours() + ':' + today.getMinutes() + ':' + today.getSeconds();
-	let dateTime = date + ' ' + time;
+	let today = new Date().toDateString();
 	response.send(
-		`<p>Phonebook has data on ${persons.length} people</p> <p>${dateTime}</p>`
+		`<p>Phonebook has data on ${persons.length} people</p> <p>${today}</p>`
 	);
+});
+
+app.get('/api/persons/:id', (request, response) => {
+	const id = Number(request.params.id);
+	const note = persons.find((person) => person.id === id);
+	if (note) {
+		response.json(note);
+	} else {
+		response.status(404).end();
+	}
 });
 
 const PORT = 3001;
