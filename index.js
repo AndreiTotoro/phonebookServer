@@ -1,8 +1,10 @@
+require('dotenv').config();
 const { response, request } = require('express');
 const express = require('express');
 const app = express();
 const morgan = require('morgan');
 const cors = require('cors');
+const Person = require('./models/person');
 
 const requestLogger = (request, response, next) => {
 	console.log('Method:', request.method);
@@ -42,7 +44,9 @@ let persons = [
 ];
 
 app.get('/api/persons', (request, response) => {
-	response.json(persons);
+	Person.find({}).then((persons) => {
+		response.json(persons);
+	});
 });
 
 app.get('/info', (request, response) => {
@@ -82,14 +86,14 @@ app.post('/api/persons/', (request, response) => {
 		});
 	}
 
-	const person = {
-		id: Math.floor(Math.random() * 1000 + 1),
+	const person = new Person({
 		name: body.name,
 		number: body.number,
-	};
+	});
 
-	persons = persons.concat(person);
-	response.json(person);
+	person.save().then((savedPerson) => {
+		response.json(savedPerson);
+	});
 });
 
 const unknownEndpoint = (request, response) => {
@@ -98,7 +102,7 @@ const unknownEndpoint = (request, response) => {
 
 app.use(unknownEndpoint);
 
-const PORT = process.env.PORT || 3001;
+const PORT = process.env.PORT;
 
 app.listen(PORT, () => {
 	console.log(`Listening on port ${PORT}!`);
