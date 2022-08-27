@@ -61,9 +61,11 @@ app.get('/api/persons', (request, response) => {
 
 app.get('/info', (request, response) => {
 	let today = new Date().toDateString();
-	response.send(
-		`<p>Phonebook has data on ${persons.length} people</p> <p>${today}</p>`
-	);
+	Person.find({}).then((totalPeople) => {
+		response.send(
+			`<p>Phonebook has data on ${totalPeople.length} people</p> <p>${today}</p>`
+		);
+	});
 });
 
 app.get('/api/persons/:id', (request, response, next) => {
